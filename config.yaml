@@ -1,0 +1,2 @@
+postgres:
+  connection_string: !ENV ${POSTGRES_DEAL_PAGES_WATCHER_CONNECTION_STRING=}

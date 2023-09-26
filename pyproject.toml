@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "deal-pages-watcher"
+version = "0.0.1"
+description = ""
+authors = ["Valentin <valentin.foucher@free.fr>"]
+readme = "README.md"
+packages = [{include = "deal_pages_watcher"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pyyaml = "^6.0.1"
+frozendict = "^2.3.8"
+pyaml-env = "^1.2.1"
+sqlalchemy = "^2.0.21"
+psycopg2-binary = "^2.9.7"
+bs4 = "^0.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
