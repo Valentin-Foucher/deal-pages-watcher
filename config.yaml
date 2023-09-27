@@ -1,2 +1,11 @@
 postgres:
-  connection_string: !ENV ${POSTGRES_DEAL_PAGES_WATCHER_CONNECTION_STRING=}
+  connection_string: !ENV ${POSTGRES_DEAL_PAGES_WATCHER_CONNECTION_STRING}
+
+http_client:
+  max_retries: 3
+
+telegram:
+  urls:
+    base: https://api.telegram.org
+  token: !ENV ${TELEGRAM_DEAL_BOT_TOKEN}
+  channel: !ENV ${TELEGRAM_DEAL_BOT_CHANNEL}
