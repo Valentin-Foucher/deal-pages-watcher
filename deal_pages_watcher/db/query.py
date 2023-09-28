@@ -10,3 +10,18 @@ def list_watchers(name: str) -> ScalarResult[Watcher]:
         .join(Watcher.user)
         .where(User.name == name)
     )
+
+
+def create_watcher(url: str):
+    session.add(Watcher(url=url, user_id=1))
+    session.commit()
+
+
+def delete_watcher(watcher: Watcher):
+    session.delete(watcher)
+    session.commit()
+
+
+def get_watcher(url: str) -> Watcher:
+    return session.query(Watcher).filter_by(url=url).first()
+
