@@ -14,15 +14,17 @@ class IsAnnotated(BaseModel):
     is_annotated: bool
 
 
-@app.post('/annotate/{url:path}')
+@app.post('/toggle_annotation/{url:path}', response_model=IsAnnotated, status_code=status.HTTP_200_OK)
 async def toggle_annotation(url: str):
     url = urllib.parse.unquote(url)
     if watcher := get_watcher(url):
         delete_watcher(watcher)
+        is_annotated = False
     else:
         create_watcher(url)
+        is_annotated = True
 
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    return {'is_annotated': is_annotated}
 
 
 @app.get('/is_annotated/{url:path}', response_model=IsAnnotated, status_code=status.HTTP_200_OK)
