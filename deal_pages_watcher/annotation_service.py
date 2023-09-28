@@ -3,11 +3,19 @@ import urllib.parse
 import uvicorn
 from fastapi import FastAPI, status
 from pydantic import BaseModel
-from starlette.responses import Response
+from starlette.middleware.cors import CORSMiddleware
 
 from deal_pages_watcher.db.query import get_watcher, create_watcher, delete_watcher
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
 
 
 class IsAnnotated(BaseModel):
@@ -33,5 +41,5 @@ async def check_is_annotated(url: str):
     return {'is_annotated': get_watcher(url) is not None}
 
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+if __name__ == '__main__':
+    uvicorn.run(app, host='0.0.0.0', port=8000)
