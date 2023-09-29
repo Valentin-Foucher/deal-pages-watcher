@@ -15,7 +15,7 @@ for watcher in list_watchers('valentin'):
     details = get_discount_details(watcher.url)
 
     if details['discount'] and not watcher.alert_sent:
-        new_deals += f'- {details["product"]}: ' \
+        new_deals += f'• {details["product"]}: ' \
                      f'{details["prices"][1]["value"]}{details["prices"][1]["currency"]} -> ' \
                      f'{details["prices"][0]["value"]}{details["prices"][0]["currency"]} ' \
                      f'({int(details["discount"])}%)\n'
@@ -24,7 +24,7 @@ for watcher in list_watchers('valentin'):
         watcher.product = details['product']
         session.commit()
     elif not details['discount'] and watcher.alert_sent:
-        finished_deals += f'- {details["product"]}\n'
+        finished_deals += f'• {details["product"]}\n'
         watcher.alert_sent = False
         watcher.product = None
         session.commit()

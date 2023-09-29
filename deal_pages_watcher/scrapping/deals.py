@@ -32,7 +32,8 @@ def get_closest_ancestor_that_includes_h1(anchor: PageElement) \
         max_ancestor_level += 1
 
         prices = list(map(get_number_and_currency,
-                          ancestor.find_all(string=re.compile(r'^\s*\d+([,.]\d+)?\s*[€$]\s*$'), limit=2)))
+                          ancestor.find_all(string=re.compile(r'[\s\u00A0]*\d+([,.]\d+)?[\s\u00A0]*[€$][\s\u00A0]*'),
+                                            limit=2)))
 
         h1 = ancestor.find('h1')
         if len(prices) == 2 and h1 is not None and is_deal_correct(percent, *[p['value'] for p in prices]):
@@ -63,7 +64,9 @@ def get_discount_details(url: str) -> dict[str, str | list[dict[str, float | str
 
     if soup.find(string=re.compile(r'^([dD]escription.*|[Cc]aract.ristiques?|[Aa]jouter\sau\spanier)$')):
 
-        for anchor in soup.find_all(string=re.compile(r'^\s*-\s*\d+([,.]\d+)?\s*%\s*$')):
+        for anchor in soup.find_all(
+                string=re.compile(r'^[\s\u00A0]*-[\s\u00A0]*\d+([,.]\d+)?[\s\u00A0]*%[\s\u00A0]*$')
+        ):
             if not (anchor.get_text()) or anchor.name == 'script':
                 continue
 
@@ -83,13 +86,3 @@ def get_discount_details(url: str) -> dict[str, str | list[dict[str, float | str
 
     characteristics.pop('level')
     return characteristics
-
-# print(get_discount_details("https://www.zalando.fr/rieker-mules-blau-ri111a0z2-k11.html"))
-# print(get_discount_details('https://www.auchan.fr/electromenager-cuisine/bonnes-affaires-electromenager-cuisine/ca-10608361#e5a33f79-2203-48e6-8136-3450f688e301_566'))
-# print(get_discount_details('https://www.auchan.fr/samsung-lave-linge-hublot-ww80ta046th-8-kg-1400-t-min/pr-C1331172'))
-# print(get_discount_details('https://www.kookai.fr/products/c4527-a8?variant=42363208630448'))
-# print(get_discount_details('https://www.zalando.fr/buffalo-aspha-bottines-a-lacets-silverblue-bu311n0ep-d11.html'))
-# print(get_discount_details('https://www.kiabi.com/jean-skinny-fit-coupe-tres-ajustee-triple-stone_P849161C857502'))
-# print(get_discount_details('https://www.kiabi.com/homme_200010'))
-# print(get_discount_details('https://www.eden-park.com/en/products/robe-noire-en-maille-a-col-montant-h23mairo0002_no'))
-# print(get_discount_details('https://www.facebook.com/'))
