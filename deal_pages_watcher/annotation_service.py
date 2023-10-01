@@ -5,7 +5,7 @@ from fastapi import FastAPI, status
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 
-from deal_pages_watcher.db.query import get_watcher, create_watcher, delete_watcher
+from deal_pages_watcher.db.query import get_watcher, create_watcher, delete_watcher, list_watchers
 
 app = FastAPI()
 
@@ -20,6 +20,10 @@ app.add_middleware(
 
 class IsAnnotated(BaseModel):
     is_annotated: bool
+
+
+class AnnotatedUrls(BaseModel):
+    annotated_urls: list[str]
 
 
 @app.post('/toggle_annotation/{url:path}', response_model=IsAnnotated, status_code=status.HTTP_200_OK)
@@ -39,6 +43,11 @@ async def toggle_annotation(url: str):
 async def check_is_annotated(url: str):
     url = urllib.parse.unquote(url)
     return {'is_annotated': get_watcher(url) is not None}
+
+
+@app.get('/annotated_urls', response_model=AnnotatedUrls, status_code=status.HTTP_200_OK)
+async def annotated_urls():
+    return {'annotated_urls': [w.url for w in list_watchers()]}
 
 
 if __name__ == '__main__':

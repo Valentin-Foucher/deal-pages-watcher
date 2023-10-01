@@ -11,7 +11,7 @@ new_deals = ''
 finished_deals = ''
 message = ''
 
-for watcher in list_watchers('valentin'):
+for watcher in list_watchers():
     details = get_discount_details(watcher.url)
 
     if details['discount'] and not watcher.alert_sent:
