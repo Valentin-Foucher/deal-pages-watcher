@@ -50,5 +50,10 @@ async def annotated_urls():
     return {'annotated_urls': [w.url for w in list_watchers()]}
 
 
+@app.get('/', status_code=status.HTTP_204_NO_CONTENT)
+async def root():
+    pass
+
+
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000)
